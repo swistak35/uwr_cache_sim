@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-#define DEBUG true
+#define DEBUG false
 
 using namespace std;
 
