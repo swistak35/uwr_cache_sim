@@ -4,6 +4,9 @@
 
 using namespace std;
 
+#ifndef STRUCT_READER_H
+#define STRUCT_READER_H
+
 class StructReader {
 public:
   StructReader();
@@ -12,3 +15,5 @@ public:
 private:
   ifstream binfile;
 };
+
+#endif
