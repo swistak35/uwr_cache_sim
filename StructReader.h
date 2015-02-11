@@ -8,7 +8,7 @@ class StructReader {
 public:
   StructReader();
   ~StructReader();
-  void get(mtrace_t * tmp);
+  int get(mtrace_t * tmp);
 private:
   ifstream binfile;
 };

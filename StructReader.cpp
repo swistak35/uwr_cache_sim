@@ -11,6 +11,12 @@ StructReader::~StructReader() {
   this->binfile.close();
 }
 
-void StructReader::get(mtrace_t *data) {
+int StructReader::get(mtrace_t *data) {
   this->binfile.read((char *) data, sizeof(mtrace_t));
+
+  if (this->binfile.eof()) {
+    return 1;
+  }
+
+  return 0;
 }
