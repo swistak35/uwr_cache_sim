@@ -1,7 +1,7 @@
 #include <cstdlib>
+#include <tracestruct.h>
 #include <iostream>
 #include <fstream>
-#include "tracestruct.h"
 
 #define DEBUG false
 
