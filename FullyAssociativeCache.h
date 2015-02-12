@@ -7,7 +7,7 @@ using namespace std;
   {
 		public:
 			void setup(int setCap, int blockCap);
-			bool findTag(long int address);
+			bool findTag(long int address, bool replace);
 			Set(){recentlyUsedCount = 0;};
 		private:
 			int recentlyUsedCount;
@@ -23,23 +23,39 @@ using namespace std;
 			struct Block* blocks;
   };
 
-class Cache {
+class Cache 
+{
 public:
-  Cache(int cacheCap, int setCap, int blockCap, StructReader * reader);
-  ~Cache();
-  void start();
-private:
 	StructReader * reader;
 	Set* sets;
 	int setCount;
 	int cacheCap;
   int blockCap;
+  int cacheRef = 0;
+  int ramRef = 0;
+  int memRef = 0;
+  int hits = 0;
   
-  bool read(long int address);
-  bool write(long int address);
-  int find_best_index();
+  
+  Cache(int cacheCap, int setCap, int blockCap, StructReader * reader);
+  ~Cache();
+  void start();
+  bool cacheReference(long int address, bool replace);
+  void ramReference();
+  
+private:
+  virtual void read(long int address);
+  virtual void write(long int address);
+};
 
-  struct row * rows;
+class WriteThroughCache : public Cache
+{
+	public:
+		WriteThroughCache(int cacheCap, int setCap, int blockCap, StructReader * reader): Cache(cacheCap, setCap, blockCap, reader)
+	 	{};
+	private:
+		void read(long int address);
+		void write(long int adress);
 };
 
 

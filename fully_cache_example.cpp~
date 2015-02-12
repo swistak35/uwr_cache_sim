@@ -7,8 +7,8 @@ using namespace std;
 int main() {
   StructReader odczyt;
 
-  Cache cache_model(10, 8, 6, &odczyt);
-  cache_model.start();
+  WriteThroughCache* cache = new WriteThroughCache(12, 10, 6, &odczyt);
+  cache->start();
 
   return 0;
 }
