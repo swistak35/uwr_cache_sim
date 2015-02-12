@@ -1,7 +1,7 @@
 #include "FullyAssociativeCache.h"
 
 
-Cache::Cache(int cacheCap, int blockCap, int setCap, StructReader * reader) {
+Cache::Cache(int cacheCap, int setCap, int blockCap, StructReader * reader) {
   this->reader = reader;
 	this->setCount = 1<<(cacheCap-setCap);
   sets = new Set[setCount];
@@ -33,8 +33,9 @@ void Cache::start() {
       } else {
         op_result = read(tmp.address);
       }
-
-      hits+=op_result;
+      
+      if(op_result)
+      	hits++;
       }
     }
     /* cout << "Pobrano: " << tmp.address << " " << tmp.is_write << " " << +tmp.size << endl; */
@@ -72,6 +73,8 @@ bool Set::findTag(long int tag)
 		}
 		int index = this->findBestIndex();
 		LRU_algorithm(index);
+		this->blocks[index].valid_bit = true;
+		this->blocks[index].address = tag;
 		return false;
 }
 

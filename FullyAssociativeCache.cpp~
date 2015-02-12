@@ -1,7 +1,7 @@
 #include "FullyAssociativeCache.h"
 
 
-Cache::Cache(int cacheCap, int blockCap, int setCap, StructReader * reader) {
+Cache::Cache(int cacheCap, int setCap, int blockCap, StructReader * reader) {
   this->reader = reader;
 	this->setCount = 1<<(cacheCap-setCap);
   sets = new Set[setCount];
@@ -13,13 +13,6 @@ Cache::Cache(int cacheCap, int blockCap, int setCap, StructReader * reader) {
 }
 
 Cache::~Cache() {
-}
-
-void Set::setup(int setCap, int blockCap)
-{
-	this->blockCount = 1<<setCap-blockCap;
-	this->blockCap = blockCap;
-	blocks = (struct Block*) malloc(sizeof(struct Block) * blockCount);
 }
 
 void Cache::start() {
@@ -40,8 +33,9 @@ void Cache::start() {
       } else {
         op_result = read(tmp.address);
       }
-
-      hits+=op_result;
+      
+      if(op_result)
+      	hits++;
       }
     }
     /* cout << "Pobrano: " << tmp.address << " " << tmp.is_write << " " << +tmp.size << endl; */
@@ -61,6 +55,14 @@ bool Cache::write(long int address) {
   return read(address);
 }
 
+void Set::setup(int setCap, int blockCap)
+{
+	this->blockCount = 1<<setCap-blockCap;
+	this->blockCap = blockCap;
+	blocks = (struct Block*) malloc(sizeof(struct Block) * blockCount);
+}
+
+
 bool Set::findTag(long int tag)
 {
 	for(int i = 0; i < this->blockCount; i++)
@@ -71,6 +73,8 @@ bool Set::findTag(long int tag)
 		}
 		int index = this->findBestIndex();
 		LRU_algorithm(index);
+		this->blocks[i].valid_bit = true;
+		this->blocks[i].address = tag;
 		return false;
 }
 
