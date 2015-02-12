@@ -15,6 +15,13 @@ Cache::Cache(int cacheCap, int blockCap, int setCap, StructReader * reader) {
 Cache::~Cache() {
 }
 
+void Set::setup(int setCap, int blockCap)
+{
+	this->blockCount = 1<<setCap-blockCap;
+	this->blockCap = blockCap;
+	blocks = (struct Block*) malloc(sizeof(struct Block) * blockCount);
+}
+
 void Cache::start() {
   int get_result = 0;
   int op_result = 0;
@@ -53,14 +60,6 @@ bool Cache::read(long int address) {
 bool Cache::write(long int address) {
   return read(address);
 }
-
-void Set::setup(int setCap, int blockCap)
-{
-	this->blockCount = 1<<setCap-blockCap;
-	this->blockCap = blockCap;
-	blocks = (struct Block*) malloc(sizeof(struct Block) * blockCount);
-}
-
 
 bool Set::findTag(long int tag)
 {

@@ -8,7 +8,7 @@ using namespace std;
 		public:
 			void setup(int setCap, int blockCap);
 			bool findTag(long int address);
-			Set(){recentlyUsedCount = 0;};
+			Set(){recentlyUsedCount = 0};
 		private:
 			int recentlyUsedCount;
 			int blockCount;
