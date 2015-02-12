@@ -1,15 +1,15 @@
 #include "Cache.h"
 
-
-Cache::Cache(int cacheCap, int setCap, int blockCap, StructReader * reader) {
+Cache::Cache(int cacheCap, int setCap, int blockCap, StructReader * reader, LRUAlgorithmFactory * algFactory) {
   this->reader = reader;
-	this->setCount = 1<<(cacheCap-setCap);
+  this->setCount = 1<<(cacheCap-setCap);
   sets = new Set[setCount];
-  for(int i = 0; i< setCount; i++)
-  	sets[i].setup(setCap, blockCap);
-	this->cacheCap = cacheCap;
-	this->blockCap = blockCap;
-	
+  for(int i = 0; i< setCount; i++) {
+    sets[i].setAlgorithm(algFactory);
+    sets[i].setup(setCap, blockCap);
+  }
+  this->cacheCap = cacheCap;
+  this->blockCap = blockCap;
 }
 
 Cache::~Cache() {
@@ -23,8 +23,8 @@ void Cache::start() {
     get_result = reader->get(&tmp);
     if (get_result)
       break;
-		
-		this->memRef++;
+
+    this->memRef++;
     if (tmp.is_write) 
       write(tmp.address);
     else
