@@ -10,12 +10,12 @@ void Set::setup(int setCap, int blockCap)
 
 bool Set::findTag(long int tag)
 {
-  for(int i = 0; i < this->blockCount; i++) {
-    if(this->blocks[i].address == tag) {
+  for(int i = 0; i < this->blockCount; i++)
+    if(this->blocks[i].address == tag)
+    {
       LRU_algorithm(i);
       return true;
     }
-  }
   int index = this->findBestIndex();
   LRU_algorithm(index);
   this->blocks[index].valid_bit = true;
