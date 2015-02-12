@@ -1,6 +1,6 @@
 #include <iostream>
 #include "StructReader.h"
-#include "FullyAssociativeCache.h"
+#include "Cache.h"
 
 using namespace std;
 

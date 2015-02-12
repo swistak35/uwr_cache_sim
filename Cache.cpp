@@ -1,5 +1,4 @@
-#include "FullyAssociativeCache.h"
-
+#include "Cache.h"
 
 Cache::Cache(int cacheCap, int blockCap, int setCap, StructReader * reader) {
   this->reader = reader;
@@ -54,11 +53,4 @@ bool Cache::read(long int address) {
 
 bool Cache::write(long int address) {
   return read(address);
-}
-
-void Set::setup(int setCap, int blockCap)
-{
-  this->blockCount = 1<<setCap-blockCap;
-  this->blockCap = blockCap;
-  blocks = (struct Block*) malloc(sizeof(struct Block) * blockCount);
 }
