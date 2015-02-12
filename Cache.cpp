@@ -5,8 +5,8 @@ Cache::Cache(int cacheCap, int setCap, int blockCap, StructReader * reader, LRUA
   this->setCount = 1<<(cacheCap-setCap);
   sets = new Set[setCount];
   for(int i = 0; i< setCount; i++) {
-    sets[i].setAlgorithm(algFactory);
     sets[i].setup(setCap, blockCap);
+    sets[i].setAlgorithm(algFactory);
   }
   this->cacheCap = cacheCap;
   this->blockCap = blockCap;

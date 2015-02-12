@@ -2,6 +2,7 @@
 #define SET_H
 
 #include <cstdlib>
+#include "Block.h"
 #include "LRUAlgorithmFactory.h"
 #include "LRUAlgorithm.h"
 
@@ -17,11 +18,6 @@ class Set {
     void setAlgorithm(LRUAlgorithmFactory * algFactory);
     int blockCount;
     int blockCap;
-    struct Block {
-      long int address;
-      bool valid_bit;
-      bool LRU_bit;
-    };
     struct Block* blocks;
   private:
     LRUAlgorithm * alg;
