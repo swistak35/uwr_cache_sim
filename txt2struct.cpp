@@ -1,13 +1,21 @@
 #include <cstdlib>
-#include <tracestruct.h>
 #include <iostream>
 #include <fstream>
+#include "tracestruct.h"
 
 #define DEBUG false
 
 using namespace std;
 
-int main() {
+int main(int argc, char * argv[]) {
+  if (argc < 2) {
+    cout << "Nie podałeś ścieżki do pliku .trace" << endl;
+    exit(EXIT_FAILURE);
+  }
+  string txt_filepath(argv[1]);
+  string bin_filepath(txt_filepath);
+  bin_filepath.append(".bin");
+
   mtrace_t tmp;
 
   long int address, ins;
@@ -16,10 +24,14 @@ int main() {
   int counter = 0;
 
   ifstream txtfile;
-  txtfile.open("test.trace", ios::in);
+  txtfile.open(txt_filepath, ios::in);
+  if (txtfile.fail()) {
+    cout << "Nie udało się otworzyć pliku. Na pewno istnieje?" << endl;
+    exit(EXIT_FAILURE);
+  }
 
   ofstream binfile;
-  binfile.open("test.bin", ios::out | ios::binary);
+  binfile.open(bin_filepath, ios::out | ios::binary);
 
   do {
 
@@ -29,7 +41,9 @@ int main() {
     txtfile >> size;
 
     if (txtfile.eof()) {
-      cout << "EOF" << endl;
+      if (DEBUG) {
+        cout << "EOF" << endl;
+      }
       break;
     }
 
