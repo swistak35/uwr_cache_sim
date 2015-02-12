@@ -1,6 +1,6 @@
 #include "Cache.h"
 
-Cache::Cache(int cacheCap, int blockCap, int setCap, StructReader * reader) {
+Cache::Cache(int cacheCap, int setCap, int blockCap, StructReader * reader) {
   this->reader = reader;
   this->setCount = 1<<(cacheCap-setCap);
   sets = new Set[setCount];

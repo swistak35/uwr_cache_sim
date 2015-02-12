@@ -1,10 +1,10 @@
-#include "tracestruct.h"
-#include <fstream>
-
-using namespace std;
-
 #ifndef STRUCT_READER_H
 #define STRUCT_READER_H
+
+#include <fstream>
+#include "tracestruct.h"
+
+using namespace std;
 
 class StructReader {
 public:

@@ -18,6 +18,8 @@ bool Set::findTag(long int tag)
     }
   int index = this->findBestIndex();
   LRU_algorithm(index);
+  this->blocks[index].valid_bit = true;
+  this->blocks[index].address = tag;
   return false;
 }
 

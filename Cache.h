@@ -5,7 +5,6 @@
 #include "StructReader.h"
 #include "Set.h"
 
-
 using namespace std;
 
 class Cache {
