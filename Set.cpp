@@ -32,9 +32,16 @@ pair<bool, int> Set::findTag(long int tag, bool replace)
       return pair<bool, int>(true, i);
     }
   }
+  if (replace) {
+    int index = loadTag(tag);
+    return pair<bool, int>(false, index);
+  }
+}
+
+int Set::loadTag(long int tag) {
   int index = alg->findBest();
   alg->use(index);
   this->blocks[index].valid_bit = true;
   this->blocks[index].address = tag;
-  return pair<bool, int>(false, index);
+  return index;
 }

@@ -1,4 +1,5 @@
 #include "Cache.h"
+#include <iostream>
 
 Cache::Cache(int cacheCap, int setCap, int blockCap, StructReader * reader, AbstractAlgorithmFactory * algFactory) {
   this->reader = reader;
@@ -25,10 +26,12 @@ void Cache::start() {
       break;
 
     this->memRef++;
-    if (tmp.is_write) 
+    if (tmp.is_write) {
       write(tmp.address);
-    else
-     	read(tmp.address);
+    } else {
+      read(tmp.address);
+      after_read_callback(tmp.address);
+    }
   }
     /* cout << "Pobrano: " << tmp.address << " " << tmp.is_write << " " << +tmp.size << endl; */
 
@@ -36,6 +39,19 @@ void Cache::start() {
   cout << cacheRef << " odwołan do cache" << endl;
   cout << ramRef << " odwołan do ram" << endl;
   cout << "Udalo sie " << hits << "/" << memRef << " (" << ratio << "%)"<< endl;
+}
+
+void Cache::after_read_callback(long int address) {
+  if (this->optionPrefetching) {
+    int lastWordInBlockOffset = (1 << (this->blockCap)) - 1;
+
+    if (lastWordInBlockOffset == (address & lastWordInBlockOffset)) {
+      address++;
+      int set = (address >> this->blockCap) % setCount;
+      long int tag = address >> (blockCap + setCount);
+      this->sets[set].loadTag(tag);
+    }
+  }
 }
 
 void Cache::read(long int address) 

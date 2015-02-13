@@ -26,6 +26,8 @@ class Cache
     void start();
     virtual pair<bool, int> cacheReference(long int address, bool replace);
     void ramReference();
+    bool optionPrefetching = false;
+    void after_read_callback(long int address);
 
   private:
     virtual void read(long int address);

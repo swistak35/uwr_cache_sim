@@ -21,6 +21,7 @@ class Set {
     int blockCount;
     int blockCap;
     struct Block* blocks;
+    int loadTag(long int tag);
   private:
     AbstractAlgorithm * alg;
 };
