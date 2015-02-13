@@ -40,7 +40,7 @@ void Cache::start() {
 
 void Cache::read(long int address) 
 {
-	if (cacheReference(address, true))
+	if (cacheReference(address, true).first)
 		hits++;
 	else
 		ramReference();
@@ -53,7 +53,7 @@ void Cache::ramReference()
 {
 	ramRef++;
 }
-bool Cache::cacheReference(long int address, bool replace)
+pair<bool,int> Cache::cacheReference(long int address, bool replace)
 {
 	int set = (address>>this->blockCap)%setCount;
 	long int tag = address>>(blockCap+setCount);
@@ -63,7 +63,7 @@ bool Cache::cacheReference(long int address, bool replace)
 }
 void WriteThroughCache::read(long int address)
 {
-		if(this->cacheReference(address, false)) // odwolanie do cache i znalezienie bloku do wymiany
+		if(this->cacheReference(address, false).first) // odwolanie do cache i znalezienie bloku do wymiany
 			hits++;
 		else
 		{
@@ -71,9 +71,51 @@ void WriteThroughCache::read(long int address)
 			cacheReference(address, true); //zapisanie do cache
 		}
 }
+
 void WriteThroughCache::write(long int address)
 {
-	if(this->cacheReference(address, false)) // zapisanie do cache jesli w nim jest
+	if(this->cacheReference(address, false).first) // zapisanie do cache jesli w nim jest
 		hits++;
 	ramReference(); //zapis do pamieci
 }
+
+pair<bool, int> WriteBackCache::cacheReference(long int address, bool replace)
+{
+	int set = (address>>this->blockCap)%setCount;
+	long int tag = address>>(blockCap+setCount);
+	cacheRef++;
+		
+	pair<bool, int> p = this->sets[set].findTag(tag, replace);
+	return p;
+}
+
+void WriteBackCache::read(long int address)
+{
+	int set = (address>>this->blockCap)%setCount;
+	pair<bool, int> p = cacheReference(address, false);
+	if(!p.first)
+	{
+		if(this->sets[set].blocks[p.second].dirty_bit)
+			ramReference();
+		ramReference();
+		cacheReference(address, true);
+		this->sets[set].blocks[p.second].dirty_bit = false;
+	}
+}
+void WriteBackCache::write(long int address)
+{
+	int set = (address>>this->blockCap)%setCount;
+	pair<bool, int> p = this->cacheReference(address, false); 
+	if(p.first)
+		hits++;
+	else
+	{
+		if(p.second)
+			ramReference(); // zapisuje stary
+		ramReference(); //wczytuje nowy
+		this->cacheReference(address, true); // zapisuje
+	}
+	this->sets[set].blocks[p.second].dirty_bit = true;
+	
+}
+

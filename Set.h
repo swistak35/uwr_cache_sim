@@ -1,6 +1,7 @@
 #ifndef SET_H
 #define SET_H
 
+#include <utility>
 #include <cstdlib>
 #include "Block.h"
 #include "LRUAlgorithmFactory.h"
@@ -8,12 +9,13 @@
 
 using namespace std;
 
+
 class Set {
   public:
     Set();
     ~Set();
     void setup(int setCap, int blockCap);
-    bool findTag(long int address, bool replace);
+    pair<bool,int> findTag(long int address, bool replace);
 
     void setAlgorithm(LRUAlgorithmFactory * algFactory);
     int blockCount;

@@ -5,7 +5,6 @@
 #include "StructReader.h"
 #include "LRUAlgorithmFactory.h"
 #include "Set.h"
-
 using namespace std;
 
 class Cache
@@ -25,7 +24,7 @@ class Cache
     Cache(int cacheCap, int setCap, int blockCap, StructReader * reader, LRUAlgorithmFactory * algFactory);
     ~Cache();
     void start();
-    bool cacheReference(long int address, bool replace);
+    virtual pair<bool, int> cacheReference(long int address, bool replace);
     void ramReference();
 
   private:
@@ -38,6 +37,17 @@ class WriteThroughCache : public Cache
 	public:
 		WriteThroughCache(int cacheCap, int setCap, int blockCap, StructReader * reader, LRUAlgorithmFactory * algFactory): Cache(cacheCap, setCap, blockCap, reader, algFactory)
 	 	{};
+	private:
+		void read(long int address);
+		void write(long int adress);
+};
+
+class WriteBackCache : public Cache
+{
+	public:
+		WriteBackCache(int cacheCap, int setCap, int blockCap, StructReader * reader, LRUAlgorithmFactory * algFactory): Cache(cacheCap, setCap, blockCap, reader, algFactory)
+		{};
+		pair<bool, int> cacheReference(long int address, bool replace);
 	private:
 		void read(long int address);
 		void write(long int adress);

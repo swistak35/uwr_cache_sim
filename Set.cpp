@@ -21,16 +21,20 @@ void Set::setAlgorithm(LRUAlgorithmFactory * algFactory) {
   this->alg = algFactory->getInstance(this->blockCount, this->blocks);
 }
 
-bool Set::findTag(long int tag, bool replace) {
-  for(int i = 0; i < this->blockCount; i++) {
-    if (this->blocks[i].valid_bit && (this->blocks[i].address == tag)) {
+pair<bool, int> Set::findTag(long int tag, bool replace) 
+{
+	pair<bool, int> p;
+  for(int i = 0; i < this->blockCount; i++) 
+  {
+    if (this->blocks[i].valid_bit && (this->blocks[i].address == tag)) 
+    {
       alg->use(i);
-      return true;
+      return pair<bool, int>(true, i);
     }
   }
   int index = alg->findBest();
   alg->use(index);
   this->blocks[index].valid_bit = true;
   this->blocks[index].address = tag;
-  return false;
+  return pair<bool, int>(false, index);
 }
