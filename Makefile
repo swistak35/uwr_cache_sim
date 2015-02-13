@@ -1,8 +1,8 @@
 CC=g++
 CFLAGS=-std=c++11
 
-CPP_FILES=Cache.cpp Set.cpp StructReader.cpp LRUAlgorithmFactory.cpp LRUAlgorithm.cpp fully_cache_example.cpp
-H_FILES=Cache.h Set.h StructReader.h LRUAlgorithmFactory.h LRUAlgorithm.h tracestruct.h
+CPP_FILES=Cache.cpp Set.cpp StructReader.cpp LRUAlgorithmFactory.cpp LRUAlgorithm.cpp RandomAlgorithmFactory.cpp RandomAlgorithm.cpp fully_cache_example.cpp
+H_FILES=Cache.h Set.h StructReader.h LRUAlgorithmFactory.h LRUAlgorithm.h RandomAlgorithmFactory.h RandomAlgorithm.h tracestruct.h AbstractAlgorithmFactory.h AbstractAlgorithm.h
 
 all: txt2struct.out fully_cache_example.out
 

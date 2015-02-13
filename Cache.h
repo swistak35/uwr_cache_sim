@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "StructReader.h"
-#include "LRUAlgorithmFactory.h"
+#include "AbstractAlgorithmFactory.h"
 #include "Set.h"
 using namespace std;
 
@@ -21,7 +21,7 @@ class Cache
     int hits = 0;
 
 
-    Cache(int cacheCap, int setCap, int blockCap, StructReader * reader, LRUAlgorithmFactory * algFactory);
+    Cache(int cacheCap, int setCap, int blockCap, StructReader * reader, AbstractAlgorithmFactory * algFactory);
     ~Cache();
     void start();
     virtual pair<bool, int> cacheReference(long int address, bool replace);
@@ -35,7 +35,7 @@ class Cache
 class WriteThroughCache : public Cache
 {
 	public:
-		WriteThroughCache(int cacheCap, int setCap, int blockCap, StructReader * reader, LRUAlgorithmFactory * algFactory): Cache(cacheCap, setCap, blockCap, reader, algFactory)
+		WriteThroughCache(int cacheCap, int setCap, int blockCap, StructReader * reader, AbstractAlgorithmFactory * algFactory): Cache(cacheCap, setCap, blockCap, reader, algFactory)
 	 	{};
 	private:
 		void read(long int address);

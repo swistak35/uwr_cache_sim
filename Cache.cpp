@@ -1,6 +1,6 @@
 #include "Cache.h"
 
-Cache::Cache(int cacheCap, int setCap, int blockCap, StructReader * reader, LRUAlgorithmFactory * algFactory) {
+Cache::Cache(int cacheCap, int setCap, int blockCap, StructReader * reader, AbstractAlgorithmFactory * algFactory) {
   this->reader = reader;
   this->setCount = 1<<(cacheCap-setCap);
   sets = new Set[setCount];

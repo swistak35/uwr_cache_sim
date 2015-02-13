@@ -17,7 +17,7 @@ void Set::setup(int setCap, int blockCap)
   }
 }
 
-void Set::setAlgorithm(LRUAlgorithmFactory * algFactory) {
+void Set::setAlgorithm(AbstractAlgorithmFactory * algFactory) {
   this->alg = algFactory->getInstance(this->blockCount, this->blocks);
 }
 
