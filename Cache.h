@@ -36,7 +36,7 @@ class Cache
 class WriteThroughCache : public Cache
 {
 	public:
-		WriteThroughCache(int cacheCap, int setCap, int blockCap, StructReader * reader): Cache(cacheCap, setCap, blockCap, reader)
+		WriteThroughCache(int cacheCap, int setCap, int blockCap, StructReader * reader, LRUAlgorithmFactory * algFactory): Cache(cacheCap, setCap, blockCap, reader, algFactory)
 	 	{};
 	private:
 		void read(long int address);
