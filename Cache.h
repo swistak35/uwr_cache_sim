@@ -45,7 +45,7 @@ class WriteThroughCache : public Cache
 class WriteBackCache : public Cache
 {
 	public:
-		WriteBackCache(int cacheCap, int setCap, int blockCap, StructReader * reader, LRUAlgorithmFactory * algFactory): Cache(cacheCap, setCap, blockCap, reader, algFactory)
+		WriteBackCache(int cacheCap, int setCap, int blockCap, StructReader * reader, AbstractAlgorithmFactory * algFactory): Cache(cacheCap, setCap, blockCap, reader, algFactory)
 		{};
 		pair<bool, int> cacheReference(long int address, bool replace);
 	private:
