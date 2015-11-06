@@ -2,13 +2,14 @@
 #define STRUCT_READER_H
 
 #include <fstream>
+#include <string>
 #include "tracestruct.h"
 
 using namespace std;
 
 class StructReader {
 public:
-  StructReader();
+  StructReader(string filepath);
   ~StructReader();
   int get(mtrace_t * tmp);
 private:

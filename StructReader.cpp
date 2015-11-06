@@ -2,9 +2,9 @@
 
 using namespace std;
 
-StructReader::StructReader() {
+StructReader::StructReader(string filepath) {
   this->binfile;
-  this->binfile.open("test.bin", ios::in | ios::binary);
+  this->binfile.open(filepath, ios::in | ios::binary);
 }
 
 StructReader::~StructReader() {
